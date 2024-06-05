@@ -1,42 +1,44 @@
 <x-app-layout>
-    <div class="w-1/2  m-auto mt-10 ">
-        <div class="flex justify-between">
-            <div><p>Product</p></div>
-            <div class="mr-16">
-                <a href="{{ route('products.create') }}" class="bg-blue-400 text-white rounded shadow px-6 py-0.5">Create Product</a>
-            </div>
+
+    <div class="bg-white">
+        <div class=" flex items-center w-2/4 m-auto">
+            <form action="/dashboard/products/search" method="GET">
+                <input class="rounded px-3 py-1" name="search" type="search" placeholder="product search...." id="search" />
+                <button type="submit" class="px-3 py-1 bg-blue-400 rounded cursor-pointer">Search</button>
+            </form>
         </div>
-        <table class="mt-3">
-            <tr class="border border-solid">
-                <th class=" bg-white text-left p-2">Title</th>
-                <th class=" bg-white text-left p-2">Description</th>
-                <th class=" bg-white text-left p-2">Price</th>
-                <th class=" bg-white text-left p-2">image</th>
-                <th class=" bg-white text-left p-2">Action</th>
+        <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+            <h2 class="text-2xl font-bold tracking-tight text-gray-900">Product List</h2>
+            @if (count($products) > 0)
+                <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                    @foreach($products as $product)
 
-            </tr>
-            @foreach($products as $product)
-                <tr class="even:bg-off-table border border-solid">
-                    <td class=" text-left p-2">{{ $product->title }}</td>
-                    <td class=" text-left p-2">{{ $product->description }}</td>
-                    <td class=" text-left p-2">{{ $product->price }}</td>
-                    <td class=" text-left p-2">
-                        <img src="{{ asset('/storage/'.$product->photo) }}"  class="w-12 h-12" alt="Hello"/>
-                    </td>
-                    <td class="flex text-center justify-between">
-                        <a href="{{ route('products.edit', $product) }}" class="bg-green-400 px-3 py-1 ml-1 rounded-l mt-3">Edit</a>
-                        <div class="mt-3">
-                            <form method="POST" action="{{ route('products.destroy', $product) }}">
-                                @csrf
-                                @method('delete')
-                                <a href="{{ route('products.destroy', $product) }}" class="bg-red-500 px-3 py-1 ml-1 mr-1 rounded-l ">Delete</a>
-                            </form>
+                    <div class="group relative">
+                        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                            <img src="{{ asset('/storage/'.$product->photo) }}" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
                         </div>
+                        <div class="mt-4 flex flex-col justify-between gap-x-2">
+                            <div>
+                                <h3 class="text-sm text-gray-700 ">
+                                    <a href="#">
+                                        <span aria-hidden="true" class="absolute inset-0"></span>
+                                        {{ $product->title }}
+                                    </a>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500"> {{ $product->description }} </p>
+                            </div>
+                            <p class="text-sm font-medium text-gray-900">{{ $product->price }}</p>
+                            <div>
+                                <button class="px-3 pt-1 bg-blue-400 w-full text-white">Add Stock</button>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            @else
+               <p class="text-center bg-gray-300 text-black p-3 rounded w-1/4 m-auto font-bold "> No product found </p>
+            @endif
 
-                    </td>
-                </tr>
-            @endforeach
-
-        </table>
+        </div>
     </div>
 </x-app-layout>

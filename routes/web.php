@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -15,6 +16,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 Route::resource('/dashboard/products', ProductController::class)
-    ->only(['index', 'store', 'edit', 'create', 'show', 'update', 'destroy'])
+    ->only(['index', 'store', 'create', 'update', 'destroy', 'productSearch'])
     ->middleware(['auth', 'verified']);
+Route::get('/dashboard/products/search', SearchController::class)->middleware(['auth']);
+
 require __DIR__.'/auth.php';
