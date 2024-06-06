@@ -2,7 +2,7 @@
 
     <div class="bg-white">
         <div class=" flex items-center w-2/4 m-auto">
-            <form action="/dashboard/products/search" method="GET">
+            <form action="{{ route('products.index') }}" method="GET">
                 <input class="rounded px-3 py-1" name="search" type="search" placeholder="product search...." id="search" />
                 <button type="submit" class="px-3 py-1 bg-blue-400 rounded cursor-pointer">Search</button>
             </form>

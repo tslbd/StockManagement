@@ -18,6 +18,5 @@ Route::middleware('auth')->group(function () {
 Route::resource('/dashboard/products', ProductController::class)
     ->only(['index', 'store', 'create', 'update', 'destroy', 'productSearch'])
     ->middleware(['auth', 'verified']);
-Route::get('/dashboard/products/search', SearchController::class)->middleware(['auth']);
 
 require __DIR__.'/auth.php';
