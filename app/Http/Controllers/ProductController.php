@@ -11,10 +11,10 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $result = Product::where('title', 'LIKE', '%'.request('search').'%')->get();
+        $searchResult = Product::where('title', 'LIKE', '%'.request('search').'%')->get();
         $products = Product::with('user')->latest()->get();
-        if ($result) {
-            return view('product.index', ['products' => $products, 'stocks' => $result]);
+        if ($searchResult) {
+            return view('product.index', ['products' => $searchResult]);
         }
         return view('product.index', ['products' => $products]);
     }
