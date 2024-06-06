@@ -9,9 +9,13 @@ use Illuminate\View\View;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $result = Product::where('title', 'LIKE', '%'.request('search').'%')->get();
         $products = Product::with('user')->latest()->get();
+        if ($result) {
+            return view('product.index', ['products' => $products, 'stocks' => $result]);
+        }
         return view('product.index', ['products' => $products]);
     }
 
