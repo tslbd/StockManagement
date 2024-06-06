@@ -4,7 +4,7 @@
 
         <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
             <div class=" flex items-center justify-center">
-                <form action="/dashboard/products/search" class="" method="GET">
+                <form action="{{ route('products.index') }}" class="" method="GET">
                     <input class="rounded-full px-3 py-1  " name="search" type="search" placeholder="product search...." id="search" />
                     <button type="submit" class="px-3 py-1 bg-blue-400 rounded-full cursor-pointer">Search</button>
                 </form>

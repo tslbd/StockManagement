@@ -14,15 +14,11 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
-        $stocks = Stock::where('user_id', Auth::user()->id)->get();
-        $result = [];
-        foreach ($stocks as $stock) {
-            $result[$stock->product_id] = $stock->user_id;
-        }
+        $products = Auth::user()->products;
+        $stocks = Auth::user()->stocks->pluck('product_id', 'user_id');
         return view('product.index', [
             'products' => $products,
-            'stocks' => $result,
+            'stocks' => $stocks->all(),
         ]);
     }
 
