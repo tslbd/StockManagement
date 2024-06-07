@@ -17,18 +17,22 @@ class StockController extends Controller
     {
         $search = request('search');
        $SearchStockProducts = Auth::user()->products()->where('title', 'LIKE', '%'.$search.'%')->get();
+        $stockProductStatus = Stock::all()->pluck('is_stock', 'product_id');
+    dump($stockProductStatus);
+        $productsStock = Auth::user()->products;
+        dump($productsStock);
         if ($SearchStockProducts) {
             return view('stock.index',
                 [
                     'products' => $SearchStockProducts,
-                    'stocks' => [],
+                    'stocks' => $stockProductStatus,
                 ]);
         }
-        $productsStock = Auth::user()->products;
+
         return view('stock.index',
             [
                 'products' => $productsStock,
-                'stocks' => [],
+                'stocks' => $stockProductStatus,
             ]);
     }
 
@@ -45,7 +49,7 @@ class StockController extends Controller
      */
     public function store(Request $request)
     {
-        ProductUser::create([
+        Stock::create([
             'user_id' => Auth::user()->id,
             'product_id' => $request->get('id'),
         ]);
