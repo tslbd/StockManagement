@@ -17,11 +17,12 @@ class StockController extends Controller
     {
         $search = request('search');
        $SearchStockProducts = Auth::user()->products()->where('title', 'LIKE', '%'.$search.'%')->get();
+        $stockProductStatus = ProductUser::all()->pluck('is_stock', 'product_id');
         if ($SearchStockProducts) {
             return view('stock.index',
                 [
                     'products' => $SearchStockProducts,
-                    'stocks' => [],
+                    'stocks' => $stockProductStatus,
                 ]);
         }
         $productsStock = Auth::user()->products;

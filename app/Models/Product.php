@@ -19,6 +19,6 @@ class Product extends Model
 
         public function users(): BelongsToMany
         {
-            return $this->belongsToMany(User::class, 'product_users');
+            return $this->belongsToMany(User::class, 'product_users')->withPivot('is_stock');
         }
 }
