@@ -17,7 +17,7 @@ class ProductController extends Controller
     {
         $products = Product::all();
         $result = [];
-        $stocks = ProductUser::where('user_id', Auth::user()->id)->get();
+        $stocks = Stock::where('user_id', Auth::user()->id)->get();
         foreach ($stocks as $stock) {
             $result[$stock->product_id] = $stock->user_id;
         }

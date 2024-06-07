@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
+            $table->boolean('is_stock')->default(true);
             $table->foreignIdFor(\App\Models\User::class);
             $table->foreignIdFor(\App\Models\Product::class);
             $table->timestamps();

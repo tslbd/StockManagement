@@ -17,7 +17,7 @@ class StockController extends Controller
     {
         $search = request('search');
        $SearchStockProducts = Auth::user()->products()->where('title', 'LIKE', '%'.$search.'%')->get();
-        $stockProductStatus = ProductUser::all()->pluck('is_stock', 'product_id');
+        $stockProductStatus = Stock::all()->pluck('is_stock', 'product_id');
         if ($SearchStockProducts) {
             return view('stock.index',
                 [
@@ -46,7 +46,7 @@ class StockController extends Controller
      */
     public function store(Request $request)
     {
-        ProductUser::create([
+        Stock::create([
             'user_id' => Auth::user()->id,
             'product_id' => $request->get('id'),
         ]);
