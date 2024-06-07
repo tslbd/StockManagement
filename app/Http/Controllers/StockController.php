@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\productUser;
 use App\Models\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,21 @@ class StockController extends Controller
      */
     public function index()
     {
-        //
+        $search = request('search');
+       $SearchStockProducts = Auth::user()->products()->where('title', 'LIKE', '%'.$search.'%')->get();
+        if ($SearchStockProducts) {
+            return view('stock.index',
+                [
+                    'products' => $SearchStockProducts,
+                    'stocks' => [],
+                ]);
+        }
+        $productsStock = Auth::user()->products;
+        return view('stock.index',
+            [
+                'products' => $productsStock,
+                'stocks' => [],
+            ]);
     }
 
     /**
@@ -30,7 +45,7 @@ class StockController extends Controller
      */
     public function store(Request $request)
     {
-        Stock::create([
+        ProductUser::create([
             'user_id' => Auth::user()->id,
             'product_id' => $request->get('id'),
         ]);
