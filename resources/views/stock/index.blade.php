@@ -12,9 +12,8 @@
             @if (count($products) > 0)
                 <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                     @foreach($products as $product)
-                        @dump($stocks)
-                        @if(array_key_exists($product->id,$stocks))
-                            <div class="group relative">
+                        @if($stocksProductStatus[$product->id])
+                            <div class="group relative border border-red-500">
                                 <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                                     <img src="{{ asset('/storage/'.$product->photo) }}" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
                                 </div>
@@ -29,14 +28,43 @@
                                     </div>
                                     <p class="text-sm font-medium text-gray-900">{{ $product->price }}</p>
                                     <div>
-                                        <form method="post" action="{{ route('stocks.store') }}" >
+                                        <form method="post" action="{{ route('stocks.update', $product->id) }}" >
                                             @csrf
+                                            @method('PUT')
                                             <input type="number" class="hidden" name="id" value="{{ $product->id }}">
-                                            <button type="submit" class="px-3 pt-1 bg-red-600 w-full text-white"  >Out of stock</button>
+                                            <input type="number" class="hidden" name="isStock" value="{{ 1 }}">
+                                            <button type="submit" class="px-3 pt-1 bg-red-600 w-full text-white " >out of Stock</button>
                                         </form>
                                     </div>
                                 </div>
                             </div>
+                        @else
+                        <div class="group relative">
+                            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                                <img src="{{ asset('/storage/'.$product->photo) }}" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                            </div>
+                            <div class="mt-4 flex flex-col justify-between gap-x-2">
+                                <div>
+                                    <h3 class="text-sm text-gray-700 ">
+                                        <a href="#">
+                                            {{ $product->title }}
+                                        </a>
+                                    </h3>
+                                    <p class="mt-1 text-sm text-gray-500"> {{ $product->description }} </p>
+                                </div>
+                                <p class="text-sm font-medium text-gray-900">{{ $product->price }}</p>
+                                <div>
+                                    <form method="post" action="{{ route('stocks.update', $product->id) }}" >
+                                        @csrf
+                                        @method('PUT')
+                                        <input type="number" class="hidden" name="id" value="{{ $product->id }}">
+                                        <input type="number" class="hidden" name="isStock" value="{{ 1 }}">
+                                        <button type="submit" class="px-3 pt-1 bg-green-400 w-full text-white " >Add To Stock</button>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                         @endif
                     @endforeach
                 </div>

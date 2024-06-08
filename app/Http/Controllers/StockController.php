@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Models\productUser;
 use App\Models\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class StockController extends Controller
 {
@@ -16,23 +16,27 @@ class StockController extends Controller
     public function index()
     {
         $search = request('search');
-       $SearchStockProducts = Auth::user()->products()->where('title', 'LIKE', '%'.$search.'%')->get();
-        $stockProductStatus = Stock::all()->pluck('is_stock', 'product_id');
-    dump($stockProductStatus);
+        $SearchStockProducts = Auth::user()->products()->where('title', 'LIKE', '%' . $search . '%')->get();
+        $stockProductStatus = [];
+        $stocks = Stock::where('user_id', Auth::user()->id)->get();
+        foreach ($stocks as $stock) {
+            $stockProductStatus[$stock->product_id] = $stock->is_stock;
+        };
         $productsStock = Auth::user()->products;
-        dump($productsStock);
         if ($SearchStockProducts) {
             return view('stock.index',
                 [
                     'products' => $SearchStockProducts,
-                    'stocks' => $stockProductStatus,
+                    'stocksProductStatus' => $stockProductStatus,
+                    'stocks' => $stocks,
                 ]);
         }
 
         return view('stock.index',
             [
                 'products' => $productsStock,
-                'stocks' => $stockProductStatus,
+                'stocksProductStatus' => $stockProductStatus,
+                'stocks' => $stocks,
             ]);
     }
 
@@ -75,9 +79,14 @@ class StockController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Stock $id)
     {
-        //
+
+        $stock = DB::table('stocks')
+            ->where('user_id', '=', Auth::user()->id)
+            ->where('product_id', '=', $request->get('id'))
+            ->update(['is_stock' => $request->isStock]);
+        return to_route('stocks.index');
     }
 
     /**

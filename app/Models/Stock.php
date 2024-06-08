@@ -10,6 +10,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Stock extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'product_id'];
+    protected $fillable = ['user_id', 'product_id','is_stock'];
 
 }
