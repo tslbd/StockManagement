@@ -32,7 +32,7 @@
                                             @csrf
                                             @method('PUT')
                                             <input type="number" class="hidden" name="id" value="{{ $product->id }}">
-                                            <input type="number" class="hidden" name="isStock" value="{{ 1 }}">
+                                            <input type="number" class="hidden" name="isStock" value="{{ 0 }}">
                                             <button type="submit" class="px-3 pt-1 bg-red-600 w-full text-white " >out of Stock</button>
                                         </form>
                                     </div>

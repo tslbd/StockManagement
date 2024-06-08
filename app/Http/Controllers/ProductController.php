@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductRequest;
 use App\Models\Product;
-use App\Models\ProductUser;
 use App\Models\Stock;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,12 +14,21 @@ class ProductController extends Controller
 {
     public function index()
     {
+        $searchResult = Product::where('title', 'LIKE', '%'.request('search').'%')->get();
         $products = Product::all();
         $result = [];
         $stocks = Stock::where('user_id', Auth::user()->id)->get();
         foreach ($stocks as $stock) {
             $result[$stock->product_id] = $stock->user_id;
         }
+
+        if ($searchResult) {
+            return view('product.index', [
+                'products' => $searchResult,
+                'stocks' => $result,
+            ]);
+        }
+
         return view('product.index', [
             'products' => $products,
             'stocks' => $result,
