@@ -18,9 +18,8 @@ Route::middleware('auth')->group(function () {
 Route::resource('/dashboard/products', ProductController::class)
     ->only(['index', 'store', 'create', 'update', 'destroy', 'productSearch'])
     ->middleware(['auth', 'verified']);
-Route::get('/dashboard/products/search', SearchController::class)->middleware(['auth']);
 
 Route::resource('/dashboard/stocks', \App\Http\Controllers\StockController::class)
-    ->only(['index', 'store', 'create', 'update', 'destroy', ])
+    ->only(['index', 'store', 'create', 'update', 'destroy' ])
     ->middleware(['auth', 'verified']);
 require __DIR__.'/auth.php';
