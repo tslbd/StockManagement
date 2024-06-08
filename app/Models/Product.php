@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
     use HasFactory;
-    public const PLACEHOLDER_IMAGE_PATH = 'image/placeholder.jpeg';
     protected $fillable = [
         'title',
         'description',
@@ -20,5 +20,10 @@ class Product extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+    public function stocks(): HasMany
+    {
+        return $this->hasMany(Stock::class);
+
     }
 }

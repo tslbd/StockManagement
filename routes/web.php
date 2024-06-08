@@ -20,4 +20,7 @@ Route::resource('/dashboard/products', ProductController::class)
     ->middleware(['auth', 'verified']);
 Route::get('/dashboard/products/search', SearchController::class)->middleware(['auth']);
 
+Route::resource('/dashboard/stocks', \App\Http\Controllers\StockController::class)
+    ->only(['index', 'store', 'create', 'update', 'destroy', ])
+    ->middleware(['auth', 'verified']);
 require __DIR__.'/auth.php';

@@ -4,15 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductRequest;
 use App\Models\Product;
+use App\Models\Stock;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with('user')->latest()->get();
-        return view('product.index', ['products' => $products]);
+        $products = Auth::user()->products;
+        $stocks = Auth::user()->stocks->pluck('product_id', 'user_id');
+        return view('product.index', [
+            'products' => $products,
+            'stocks' => $stocks->all(),
+        ]);
     }
 
     public function create(): View
