@@ -28,15 +28,12 @@ class StockController extends Controller
                 [
                     'products' => $SearchStockProducts,
                     'stocksProductStatus' => $stockProductStatus,
-                    'stocks' => $stocks,
                 ]);
         }
-
         return view('stock.index',
             [
                 'products' => $productsStock,
                 'stocksProductStatus' => $stockProductStatus,
-                'stocks' => $stocks,
             ]);
     }
 

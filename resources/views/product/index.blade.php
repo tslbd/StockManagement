@@ -1,9 +1,8 @@
 <x-app-layout>
-
     <div class="bg-white">
         <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
             <div class=" flex items-center justify-center">
-                <form action="{{ route('stocks.index') }}" class="" method="GET">
+                <form action="{{ route('products.index') }}" class="" method="GET">
                     <input class="rounded-full px-3 py-1  " name="search" type="search" placeholder="product search...." id="search" />
                     <button type="submit" class="px-3 py-1 bg-blue-400 rounded-full cursor-pointer">Search</button>
                 </form>
@@ -45,8 +44,9 @@
             @else
                 <p class="text-center bg-gray-300 text-black p-3 rounded w-1/4 m-auto font-bold "> No product found </p>
             @endif
-
+            <div class="mt-3">
+                {{ $products->links() }}
+            </div>
         </div>
     </div>
 </x-app-layout>
-3 changes: 1 addition & 2 deletions3

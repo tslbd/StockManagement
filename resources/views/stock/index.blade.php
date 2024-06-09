@@ -71,7 +71,9 @@
             @else
                 <p class="text-center bg-gray-300 text-black p-3 rounded w-1/4 m-auto font-bold "> No product found </p>
             @endif
-
+            <div>
+{{--                {{ $products->links() }}--}}
+            </div>
         </div>
     </div>
 </x-app-layout>
